@@ -16,7 +16,7 @@ usersRouter.post('/', async (req, res) => {
 
   const user = await createUser.execute({ name, email, password });
 
-  //@ts-expect-error
+  // @ts-expect-error deleting user password
   delete user.password;
 
   return res.json(user);
@@ -34,7 +34,7 @@ usersRouter.patch(
       avatarFilename: req.file.filename,
     });
 
-    // @ts-expect-error
+    // @ts-expect-error deleting user password
     delete user.password;
 
     return res.json(user);

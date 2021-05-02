@@ -5,7 +5,7 @@
   },
   "extends": [
     "airbnb-base",
-    "prettier/@typescript-eslint",
+    "prettier",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
@@ -16,12 +16,14 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "class-methods-use-this": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
         "argsIgnorePattern": "_"
       }
     ],
+    "camelcase": "off",
     "prettier/prettier": "error",
     "import/extensions": [
       "error",

@@ -11,7 +11,7 @@ sessionsRouter.post('/', async (req, res) => {
 
   const { user, token } = await authenticateUser.execute({ email, password });
 
-  //@ts-expect-error
+  // @ts-expect-error deleting user password
   delete user.password;
 
   return res.json({ user, token });
