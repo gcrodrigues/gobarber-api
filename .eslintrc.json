@@ -17,6 +17,8 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "class-methods-use-this": "off",
+    "no-underscore-dangle": "off",
+    "no-useless-constructor": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -25,6 +27,17 @@
     ],
     "camelcase": "off",
     "prettier/prettier": "error",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": true
+        }
+      }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
