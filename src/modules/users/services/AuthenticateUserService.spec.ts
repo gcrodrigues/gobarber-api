@@ -5,28 +5,31 @@ import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import AuthenticateUserService from './AuthenticateUserService';
 import CreateUserService from './CreateUserService';
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUser: CreateUserService;
+let authenticateUser: AuthenticateUserService;
+
 describe('AuthenticateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+    authenticateUser = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+  });
+
   it('should be able to authenticate', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const authenticateUserService = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUserService.execute({
+    const user = await createUser.execute({
       name: 'Gustavo Carvalho',
       email: 'gcrodrigues413@gmail.com',
       password: 'gobarber.tests',
     });
 
-    const response = await authenticateUserService.execute({
+    const response = await authenticateUser.execute({
       email: 'gcrodrigues413@gmail.com',
       password: 'gobarber.tests',
     });
@@ -36,16 +39,8 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate if email do not exists', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const authenticateUserService = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    expect(
-      authenticateUserService.execute({
+    await expect(
+      authenticateUser.execute({
         email: 'johnnybravo@gmail.com',
         password: 'gobarber.tests',
       }),
@@ -53,27 +48,14 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const authenticateUserService = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    await createUserService.execute({
+    await createUser.execute({
       name: 'Johnny Bravo',
       email: 'johnnybravo@gmail.com',
       password: 'gobarber.tests',
     });
 
-    expect(
-      authenticateUserService.execute({
+    await expect(
+      authenticateUser.execute({
         email: 'johnnybravo@gmail.com',
         password: 'wrong.password',
       }),
