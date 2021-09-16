@@ -1,5 +1,3 @@
-// import AppError from '@shared/errors/AppError';
-// import User from '@modules/users/infra/typeorm/entities/User';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import ListProvidersService from './ListProvidersService';
 
